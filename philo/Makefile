@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Werror -Wall -Wextra -g -I. -I42_Libft -MMD
 
-MAIN = main.c
+MAIN = main.c input_parsing.c
 
 CFILES = $(MAIN)
 OFILES = $(CFILES:.c=.o)

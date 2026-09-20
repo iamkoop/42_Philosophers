@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   initialization_of_threads.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/15 16:15:34 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/20 17:46:12 by nildruon         ###   ########.fr       */
+/*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
+/*   Updated: 2026/09/20 17:57:45 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char	**argv)
-{
-	t_parsed_input	input;
-	t_data			data;
 
-	input = (t_parsed_input){0};
-	if (!parse_data(argc, argv, &input))
-		return (1);
-	if(!data_init(&data, input))
-		return(1);
-	create_threads(data, input.number_of_philosophers);
-	return (0);
+
+void create_threads(t_data data, size_t size)
+{
+	pthread_t thread_id_arr[size];
+	size_t		i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (pthread_create(&thread_id_arr[i], NULL, philo, &data.philo_data[i]) != 0)
+		{
+			perror("Philo: ");
+			break;
+		}
+		i++;
+	}
+	i--;
+	while (i > 0)
+	{
+		pthread_join(thread_id_arr[i], NULL);
+		i--;
+	}
 }

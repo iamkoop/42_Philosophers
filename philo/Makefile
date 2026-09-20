@@ -1,7 +1,7 @@
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g -I. -I42_Libft -MMD
+CFLAGS = -Werror -Wall -Wextra -g -I. -MMD -pthread
 
-MAIN = main.c input_parsing.c
+MAIN = main.c input_parsing.c initialization_of_threads.c data_init.c philo.c cleanup.c 
 
 CFILES = $(MAIN)
 OFILES = $(CFILES:.c=.o)

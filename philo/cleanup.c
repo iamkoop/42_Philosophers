@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/15 16:15:34 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/20 17:46:12 by nildruon         ###   ########.fr       */
+/*   Created: 2026/09/20 15:32:56 by nildruon          #+#    #+#             */
+/*   Updated: 2026/09/20 17:01:14 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char	**argv)
+void cleanup_forks(pthread_mutex_t	*forks, int size)
 {
-	t_parsed_input	input;
-	t_data			data;
+	int i;
 
-	input = (t_parsed_input){0};
-	if (!parse_data(argc, argv, &input))
-		return (1);
-	if(!data_init(&data, input))
-		return(1);
-	create_threads(data, input.number_of_philosophers);
-	return (0);
+	i = 0;
+	while (i < size)
+	{
+		pthread_mutex_destroy(&forks[i]);
+		i++;
+	}
+	free(forks);
 }

@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 17:15:05 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/16 18:41:48 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/20 00:10:07 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,14 @@ size_t	ft_strlen(const char *s)
 	if (!s)
 		return (0);
 	while (s[size])
-	{
 		size++;
-	}
 	return (size);
 }
 
 static int	ft_compact_atoi(const char *nptr)
 {
-	int	i;
-	int	num;
+	size_t	i;
+	int		num;
 
 	i = 0;
 	num = 0;
@@ -45,8 +43,8 @@ static int	check_int_max(char	*curr_arg, int curr_arg_len)
 {
 	char	*err_msg;
 	char	*int_max;
-	int		num_is_safe;
-	int		i;
+	bool	num_is_safe;
+	size_t	i;
 
 	i = 0;
 	num_is_safe = 0;
@@ -67,9 +65,9 @@ static int	check_int_max(char	*curr_arg, int curr_arg_len)
 
 static int	num_parsing(char	*curr_arg)
 {
-	int	curr_arg_len;
-	int	i;
-	int	ret;
+	size_t	curr_arg_len;
+	size_t	i;
+	ssize_t	ret;
 
 	i = 0;
 	curr_arg_len = ft_strlen(curr_arg);
@@ -92,9 +90,9 @@ static int	num_parsing(char	*curr_arg)
 	return (ret);
 }
 
-int	parse_data(int argc, char	**argv, t_philo_data	*data)
+int	parse_data(int argc, char	**argv, t_parsed_input	*data)
 {
-	int	i;
+	size_t	i;
 	int	curr_param;
 
 	if (argc < 5)

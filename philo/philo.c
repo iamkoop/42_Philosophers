@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/15 16:15:34 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/20 17:46:12 by nildruon         ###   ########.fr       */
+/*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
+/*   Updated: 2026/09/20 18:13:32 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char	**argv)
+void	*philo(void *ptr)
 {
-	t_parsed_input	input;
-	t_data			data;
+	t_philo	*philo;
 
-	input = (t_parsed_input){0};
-	if (!parse_data(argc, argv, &input))
-		return (1);
-	if(!data_init(&data, input))
-		return(1);
-	create_threads(data, input.number_of_philosophers);
-	return (0);
+	philo = (t_philo	*)ptr;
+	printf("Philo num: %zu\n", philo->num);
+	printf("Philo eat: %d\n", philo->number_of_times_each_philosopher_must_eat);
+	return (NULL);
 }

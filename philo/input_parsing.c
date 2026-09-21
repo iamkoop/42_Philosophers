@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 17:15:05 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/20 00:10:07 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/21 11:36:45 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	num_parsing(char	*curr_arg)
 	return (ret);
 }
 
-int	parse_data(int argc, char	**argv, t_parsed_input	*data)
+bool	parse_data(int argc, char	**argv, t_parsed_input	*data)
 {
 	size_t	i;
 	int	curr_param;
@@ -114,7 +114,7 @@ int	parse_data(int argc, char	**argv, t_parsed_input	*data)
 		else if (i == 4)
 			data->time_to_sleep = curr_param;
 		else if (i == 5)
-			data->number_of_times_each_philosopher_must_eat = curr_param;
+			data->min_eating_cnt = curr_param;
 	}
 	return (1);
 }

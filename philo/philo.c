@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/20 18:13:32 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/21 12:47:04 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 void	*philo(void *ptr)
 {
+	struct timeval time;
 	t_philo	*philo;
 
 	philo = (t_philo	*)ptr;
+	if(gettimeofday(&time, NULL) == -1)
+		return(NULL);
 	printf("Philo num: %zu\n", philo->num);
-	printf("Philo eat: %d\n", philo->number_of_times_each_philosopher_must_eat);
+	printf("Philo thread_id: %zu\n", philo->thread_id);
+	printf("Philo time: %ld\n", time.tv_usec);
 	return (NULL);
 }

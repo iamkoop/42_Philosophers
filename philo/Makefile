@@ -1,5 +1,6 @@
 CC = cc
 CFLAGS = -Werror -Wall -Wextra -g -I. -MMD -pthread
+#-fsanitize=thread
 
 MAIN = main.c input_parsing.c initialization_of_threads.c data_init.c philo.c cleanup.c 
 

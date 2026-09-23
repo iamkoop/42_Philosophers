@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 17:15:05 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/21 11:36:45 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/21 22:41:22 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ static int	num_parsing(char	*curr_arg)
 	return (ret);
 }
 
-bool	parse_data(int argc, char	**argv, t_parsed_input	*data)
+bool	parse_data(int argc, char	**argv, t_data	*data)
 {
 	size_t	i;
-	int	curr_param;
+	int		curr_param;
 
 	if (argc < 5)
 		return (write(2, "Philo: Not enough arguments passed\n", 35), 0);

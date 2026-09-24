@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:41:52 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 15:41:54 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 20:30:15 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_philo	*philos_init(pthread_mutex_t	*forks, t_data	*data, size_t size)
 		else
 			philo_data[i].left_fork = &forks[i - 1];
 		philo_data[i].right_fork = &forks[i];
-		philo_data[i].is_dead = 0;
 		i++;
 	}
 	return (philo_data);

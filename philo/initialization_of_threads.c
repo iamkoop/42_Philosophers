@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 15:36:09 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 20:23:26 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static void	*monitor(void	*ptr)
 		while (i < size)
 		{
 			pthread_mutex_lock(&philos[i].general_data->mute);
-			if(philos[i].is_dead)
+			if(get_time_in_ms() - philos[i].t_since_last_meal >= philos->general_data->time_to_die)
 			{
+				printf("%lu %zu died\n", get_time_in_ms() - philos[i].general_data->start_time, philos[i].num);
 				philos[i].general_data->stop_sym = 1;
 				pthread_mutex_unlock(&philos[i].general_data->mute);
 				return(NULL);
@@ -63,6 +64,7 @@ bool run_simulation(t_philo			*philos_data, t_data	*data)
 {
 	ssize_t		size;
 	ssize_t		i;
+	ssize_t		t;
 	bool		ret;
 
 	i = 0;
@@ -78,11 +80,17 @@ bool run_simulation(t_philo			*philos_data, t_data	*data)
 	{
 		if (pthread_create(&philos_data[i].thread_id, NULL, philo, &philos_data[i]) != 0)
 		{
-			perror("Philo: ");
-			ret = 0;
-			break ;
+			philos_data->general_data->stop_sym = 1;
+			break;
 		}
 		i++;
+	}
+	t = 0;
+	philos_data->general_data->start_time = get_time_in_ms();
+	while (t < i)
+	{
+		philos_data[t].t_since_last_meal = philos_data->general_data->start_time;
+		t++;
 	}
 	pthread_mutex_unlock(&data->start_sim);
 	i--;

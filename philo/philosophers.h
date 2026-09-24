@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:16:17 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 15:38:13 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 20:29:34 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_data
 	uint64_t		time_to_eat;
 	uint64_t		time_to_sleep;
 	uint64_t		min_eating_cnt;
+	uint64_t        start_time;
 	size_t			eating_all_done;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	mute;
@@ -42,13 +43,14 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	size_t			num;
 	t_data			*general_data;
-	uint64_t		start;
 	uint64_t		t_since_last_meal;
 	size_t			times_eaten;
-	bool			is_dead;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }	t_philo;
+
+//utils
+uint64_t	get_time_in_ms();
 
 //cleanup
 void	cleanup_forks(pthread_mutex_t	*forks, int size);

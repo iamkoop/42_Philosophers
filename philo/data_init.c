@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:41:52 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/23 18:22:19 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 15:41:54 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,14 @@ bool general_data_init(t_data	*data)
 	data->forks = create_forks(data->number_of_philosophers);
 	if(!data->forks)
 		return(0);
-	if (pthread_mutex_init(&data->sym_start, NULL) != 0)
+	if (pthread_mutex_init(&data->mute, NULL) != 0)
 	{
 		cleanup_forks(data->forks, data->number_of_philosophers);
 		return (write(2, "Philo: mutex_init fail\n", 24), 0);
 	}
-	if (pthread_mutex_init(&data->print_protection, NULL) != 0)
+	if (pthread_mutex_init(&data->start_sim, NULL) != 0)
 	{
 		cleanup_forks(data->forks, data->number_of_philosophers);
-		pthread_mutex_destroy(&data->sym_start);
-		return (write(2, "Philo: mutex_init fail\n", 24), 0);
-	}
-	if (pthread_mutex_init(&data->philo_died, NULL) != 0)
-	{
-		cleanup_forks(data->forks, data->number_of_philosophers);
-		pthread_mutex_destroy(&data->sym_start);
-		pthread_mutex_destroy(&data->print_protection);
-		return (write(2, "Philo: mutex_init fail\n", 24), 0);
-	}
-	if (pthread_mutex_init(&data->sym_stop_mutex, NULL) != 0)
-	{
-		cleanup_forks(data->forks, data->number_of_philosophers);
-		pthread_mutex_destroy(&data->sym_start);
-		pthread_mutex_destroy(&data->print_protection);
-		pthread_mutex_destroy(&data->philo_died);
 		return (write(2, "Philo: mutex_init fail\n", 24), 0);
 	}
 	return(1);
@@ -88,11 +72,7 @@ t_philo	*philos_init(pthread_mutex_t	*forks, t_data	*data, size_t size)
 			philo_data[i].left_fork = &forks[i - 1];
 		philo_data[i].right_fork = &forks[i];
 		philo_data[i].is_dead = 0;
-		if(pthread_mutex_init(&philo_data[i].dead_protection, NULL))
-			return(NULL); //TODO: detroy previous created mutexes
-		if(pthread_mutex_init(&philo_data[i].times_eaten_mutex, NULL))
-			return(NULL);
 		i++;
 	}
-	return(philo_data);
+	return (philo_data);
 }

@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/23 19:02:31 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 15:36:09 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,38 +25,35 @@ static void	*monitor(void	*ptr)
 	i = 0;
 	cnt = 0;
 	size = philos[i].general_data->number_of_philosophers;
-	pthread_mutex_lock(&philos[i].general_data->sym_start);
-	pthread_mutex_unlock(&philos[i].general_data->sym_start);
+	pthread_mutex_lock(&philos[i].general_data->start_sim);
+	pthread_mutex_unlock(&philos[i].general_data->start_sim);
 	while (1)
 	{
 		i = 0;
 		cnt = 0;
 		while (i < size)
 		{
-			pthread_mutex_lock(&philos[i].dead_protection);
+			pthread_mutex_lock(&philos[i].general_data->mute);
 			if(philos[i].is_dead)
 			{
-				pthread_mutex_lock(&philos[i].general_data->sym_stop_mutex);
 				philos[i].general_data->stop_sym = 1;
-				pthread_mutex_unlock(&philos[i].general_data->sym_stop_mutex);
-				pthread_mutex_unlock(&philos[i].dead_protection);
+				pthread_mutex_unlock(&philos[i].general_data->mute);
 				return(NULL);
 			}
 			if(philos[i].general_data->min_eating_cnt > 0)
 			{
-				pthread_mutex_lock(&philos->times_eaten_mutex);
 				if(philos->general_data->min_eating_cnt <= philos[i].times_eaten)
 					cnt++;
-				pthread_mutex_unlock(&philos->times_eaten_mutex);
 				if(cnt == size)
 				{
-					pthread_mutex_lock(&philos[i].general_data->sym_stop_mutex);
 					philos[i].general_data->stop_sym = 1;
-					pthread_mutex_unlock(&philos[i].general_data->sym_stop_mutex);
+					pthread_mutex_unlock(&philos[i].general_data->mute);
 					return(NULL);
 				}
 			}
+			pthread_mutex_unlock(&philos[i].general_data->mute);
 			i++;
+			usleep(50);
 		}
 	}
 	return(NULL);
@@ -71,7 +68,7 @@ bool run_simulation(t_philo			*philos_data, t_data	*data)
 	i = 0;
 	ret = 1;
 	size = philos_data[i].general_data->number_of_philosophers;
-	pthread_mutex_lock(&data->sym_start);
+	pthread_mutex_lock(&data->start_sim);
 	if(pthread_create(&data->monitor, NULL, monitor, philos_data))
 	{
 		perror("Philo: ");
@@ -87,7 +84,7 @@ bool run_simulation(t_philo			*philos_data, t_data	*data)
 		}
 		i++;
 	}
-	pthread_mutex_unlock(&data->sym_start);
+	pthread_mutex_unlock(&data->start_sim);
 	i--;
 	while (i > -1)
 	{

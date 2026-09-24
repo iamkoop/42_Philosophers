@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:16:17 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/23 12:49:29 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 15:38:13 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ typedef struct s_data
 	uint64_t		min_eating_cnt;
 	size_t			eating_all_done;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	sym_start;
+	pthread_mutex_t	mute;
+	pthread_mutex_t	start_sim;
 	bool			start;
-	pthread_mutex_t	sym_stop_mutex;
 	bool			stop_sym;
-	pthread_mutex_t	print_protection;
-	pthread_mutex_t	philo_died;//if a philo died we stop all others
 	pthread_t		monitor;
 }	t_data;
 
@@ -47,9 +45,7 @@ typedef struct s_philo
 	uint64_t		start;
 	uint64_t		t_since_last_meal;
 	size_t			times_eaten;
-	pthread_mutex_t	times_eaten_mutex;
 	bool			is_dead;
-	pthread_mutex_t	dead_protection;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }	t_philo;

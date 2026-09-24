@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:16:17 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 20:29:34 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 21:29:11 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_data
 	uint64_t		time_to_eat;
 	uint64_t		time_to_sleep;
 	uint64_t		min_eating_cnt;
-	uint64_t        start_time;
+	uint64_t		start_time;
 	size_t			eating_all_done;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	mute;
@@ -49,20 +49,24 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 }	t_philo;
 
-//utils
-uint64_t	get_time_in_ms();
-
 //cleanup
-void	cleanup_forks(pthread_mutex_t	*forks, int size);
-void	cleanup_general_data(t_data *data);
+void		cleanup_forks(pthread_mutex_t	*forks, int size);
+void		cleanup_general_data(t_data *data);
 
 //init
-bool	parse_data(int argc, char	**argv, t_data	*data);
-t_philo	*philos_init(pthread_mutex_t	*forks, t_data	*data, size_t size);
-bool	general_data_init(t_data	*data);
+bool		parse_data(int argc, char	**argv, t_data	*data);
+t_philo		*philos_init(pthread_mutex_t	*forks, t_data	*data, size_t size);
+bool		general_data_init(t_data	*data);
 
-void	*philo(void *ptr);
-bool	run_simulation(t_philo	*philos_data, t_data	*data);
-int		main(int argc, char	**argv);
+//philo_utils
+uint64_t	get_time_in_ms(void);
+uint64_t	elapsed_time(uint64_t start);
+void		print_msg(t_philo	*philo, char	*msg);
+bool		wait_ms(uint64_t	ms);
+bool		stop_simulation(t_philo	*philo);
+
+//simulation
+void		*philo(void *ptr);
+bool		run_simulation(t_philo	*philos_data, t_data	*data);
 
 #endif

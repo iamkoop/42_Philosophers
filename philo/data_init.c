@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:41:52 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 21:21:20 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 22:28:38 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static pthread_mutex_t	*create_forks(int size)
 
 bool	general_data_init(t_data	*data)
 {
+	data->stop_sym = 0;
 	data->forks = create_forks(data->number_of_philosophers);
 	if (!data->forks)
 		return (0);
@@ -46,6 +47,7 @@ bool	general_data_init(t_data	*data)
 	}
 	if (pthread_mutex_init(&data->start_sim, NULL) != 0)
 	{
+		pthread_mutex_destroy(&data->mute);
 		cleanup_forks(data->forks, data->number_of_philosophers);
 		return (write(2, "Philo: mutex_init fail\n", 24), 0);
 	}
@@ -67,10 +69,20 @@ t_philo	*philos_init(pthread_mutex_t	*forks, t_data	*data, size_t size)
 		philo_data[i].general_data = data;
 		philo_data[i].times_eaten = 0;
 		if (i == 0)
+		{
 			philo_data[i].left_fork = &forks[size - 1];
-		else
+			philo_data[i].right_fork = &forks[i];
+		}
+		else if (i != size - 1)
+		{
 			philo_data[i].left_fork = &forks[i - 1];
-		philo_data[i].right_fork = &forks[i];
+			philo_data[i].right_fork = &forks[i];
+		}
+		else
+		{
+			philo_data[i].left_fork = &forks[size - 1];
+			philo_data[i].right_fork = &forks[i - 1];
+		}
 		i++;
 	}
 	return (philo_data);

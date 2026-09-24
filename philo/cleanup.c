@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/20 15:32:56 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 14:13:05 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 21:35:45 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ void	cleanup_general_data(t_data *data)
 {
 	cleanup_forks(data->forks, data->number_of_philosophers);
 	pthread_mutex_destroy(&data->mute);
+	pthread_mutex_destroy(&data->start_sim);
 }

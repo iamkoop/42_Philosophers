@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 21:27:28 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 22:21:29 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	unlock_forks(pthread_mutex_t *left, pthread_mutex_t *right)
 	pthread_mutex_unlock(right);
 	pthread_mutex_unlock(left);
 }
+
 
 static bool	eating(t_philo	*philo)
 {
@@ -68,7 +69,7 @@ void	*philo(void *ptr)
 	philo = (t_philo *)ptr;
 	pthread_mutex_lock(&philo->general_data->start_sim);
 	pthread_mutex_unlock(&philo->general_data->start_sim);
-	if (philo->num % 2 == 1)
+	if (philo->num % 2 == 0)
 		usleep(500);
 	while (!stop_simulation(philo))
 	{

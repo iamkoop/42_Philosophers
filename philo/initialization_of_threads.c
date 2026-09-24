@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 21:15:06 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 21:45:27 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static bool	run_sim_help(t_philo	*philos_data, t_data	*data,
 
 	j = 0;
 	if (pthread_create(&data->monitor, NULL, monitor, philos_data))
-		return (pthread_mutex_unlock(&data->start_sim), 0);
+		return (0);
 	while (*i < size)
 	{
 		if (pthread_create(&philos_data[*i].thread_id,

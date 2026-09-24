@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:15:34 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/23 13:42:00 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/24 21:39:43 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int argc, char	**argv)
 	if (!philos_data)
 		return (cleanup_general_data(&data), 1);
 	if (!run_simulation(philos_data, &data))
-		return (cleanup_general_data(&data), 1);
+		return (cleanup_general_data(&data), free(philos_data), 1);
+	cleanup_general_data(&data);
+	free(philos_data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 22:21:29 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 00:22:13 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,17 @@
 
 static bool	thinking(t_philo	*philo)
 {
+	uint64_t	thinking;
+	uint64_t	time_left;
+
+	time_left = philo->general_data->time_to_die - (get_time_in_ms() - philo->t_since_last_meal);
+	thinking = time_left/2 + 1;
 	if (stop_simulation(philo))
 		return (0);
 	print_msg(philo, "is thinking");
 	if (stop_simulation(philo))
+		return (0);
+	if (!wait_ms(thinking))
 		return (0);
 	return (1);
 }
@@ -37,21 +44,22 @@ static void	unlock_forks(pthread_mutex_t *left, pthread_mutex_t *right)
 	pthread_mutex_unlock(left);
 }
 
-
 static bool	eating(t_philo	*philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	print_msg(philo, "has taken a fork left");
+	print_msg(philo, "has taken a fork");
 	if (philo->general_data->number_of_philosophers == 1)
 	{
 		wait_ms(philo->general_data->time_to_die);
 		return (pthread_mutex_unlock(philo->left_fork), 1);
 	}
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(&philo->general_data->mute);
+	philo->t_since_last_meal = get_time_in_ms();
+	pthread_mutex_unlock(&philo->general_data->mute);
 	if (stop_simulation(philo))
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);
-	print_msg(philo, "has taken a fork right");
-	philo->t_since_last_meal = get_time_in_ms();
+	print_msg(philo, "has taken a fork");
 	print_msg(philo, "eating");
 	if (!wait_ms(philo->general_data->time_to_eat))
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);

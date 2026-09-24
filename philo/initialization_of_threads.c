@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 22:34:35 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 00:26:09 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static void	*monitor(void	*ptr)
 			if (!monitor_help(&philos[i], size, &cnt))
 				return (NULL);
 			pthread_mutex_unlock(&philos[i++].general_data->mute);
-			usleep(50);
 		}
+		usleep(100);
 	}
 	return (NULL);
 }

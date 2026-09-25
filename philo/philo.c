@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/25 00:22:13 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 12:41:52 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ static bool	thinking(t_philo	*philo)
 	uint64_t	thinking;
 	uint64_t	time_left;
 
-	time_left = philo->general_data->time_to_die - (get_time_in_ms() - philo->t_since_last_meal);
-	thinking = time_left/2 + 1;
+	time_left = philo->general_data->time_to_die
+		- (get_time_in_ms() - philo->t_since_last_meal);
+	thinking = time_left / 2 + 1;
 	if (stop_simulation(philo))
 		return (0);
 	print_msg(philo, "is thinking");

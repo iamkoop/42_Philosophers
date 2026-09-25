@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/25 12:41:52 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 12:57:17 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	thinking(t_philo	*philo)
 	print_msg(philo, "is thinking");
 	if (stop_simulation(philo))
 		return (0);
-	if (!wait_ms(thinking))
+	if (!wait_ms(philo, thinking))
 		return (0);
 	return (1);
 }
@@ -34,7 +34,7 @@ static bool	sleeping(t_philo	*philo)
 {
 	if (philo->general_data->number_of_philosophers > 1)
 		print_msg(philo, "is sleeping");
-	if (!wait_ms(philo->general_data->time_to_sleep))
+	if (!wait_ms(philo, philo->general_data->time_to_sleep))
 		return (0);
 	return (1);
 }
@@ -51,7 +51,7 @@ static bool	eating(t_philo	*philo)
 	print_msg(philo, "has taken a fork");
 	if (philo->general_data->number_of_philosophers == 1)
 	{
-		wait_ms(philo->general_data->time_to_die);
+		wait_ms(philo, philo->general_data->time_to_die);
 		return (pthread_mutex_unlock(philo->left_fork), 1);
 	}
 	pthread_mutex_lock(philo->right_fork);
@@ -62,7 +62,7 @@ static bool	eating(t_philo	*philo)
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);
 	print_msg(philo, "has taken a fork");
 	print_msg(philo, "eating");
-	if (!wait_ms(philo->general_data->time_to_eat))
+	if (!wait_ms(philo, philo->general_data->time_to_eat))
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);
 	pthread_mutex_lock(&philo->general_data->mute);
 	philo->times_eaten++;

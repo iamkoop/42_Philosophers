@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/24 21:24:22 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 21:27:45 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 12:56:13 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	print_msg(t_philo	*philo, char	*msg)
 	pthread_mutex_unlock(&philo->general_data->mute);
 }
 
-bool	wait_ms(uint64_t	ms)
+bool	wait_ms(t_philo	*philo, uint64_t	ms)
 {
 	uint64_t	wait_start;
 
 	wait_start = get_time_in_ms();
-	while (elapsed_time(wait_start) < ms)
+	while (elapsed_time(wait_start) < ms && !stop_simulation(philo))
 		usleep(100);
 	return (1);
 }

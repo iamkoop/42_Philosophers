@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:16:17 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/24 21:29:11 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 12:56:31 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool		general_data_init(t_data	*data);
 uint64_t	get_time_in_ms(void);
 uint64_t	elapsed_time(uint64_t start);
 void		print_msg(t_philo	*philo, char	*msg);
-bool		wait_ms(uint64_t	ms);
+bool		wait_ms(t_philo	*philo, uint64_t	ms);
 bool		stop_simulation(t_philo	*philo);
 
 //simulation

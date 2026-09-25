@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 12:17:36 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/25 00:26:09 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 14:30:39 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static bool	monitor_help(t_philo	*philo, size_t	size, size_t	*cnt)
 		printf("%lu %zu died\n", get_time_in_ms()
 			- philo->general_data->start_time, philo->num);
 		philo->general_data->stop_sym = 1;
-		pthread_mutex_unlock(&philo->general_data->mute);
 		return (0);
 	}
 	if (philo->general_data->min_eating_cnt > 0)
@@ -30,7 +29,6 @@ static bool	monitor_help(t_philo	*philo, size_t	size, size_t	*cnt)
 		if (*cnt == size)
 		{
 			philo->general_data->stop_sym = 1;
-			pthread_mutex_unlock(&philo->general_data->mute);
 			return (0);
 		}
 	}
@@ -54,13 +52,12 @@ static void	*monitor(void	*ptr)
 	{
 		i = 0;
 		cnt = 0;
+		pthread_mutex_lock(&philos->general_data->mute);
 		while (i < size)
-		{
-			pthread_mutex_lock(&philos[i].general_data->mute);
-			if (!monitor_help(&philos[i], size, &cnt))
-				return (NULL);
-			pthread_mutex_unlock(&philos[i++].general_data->mute);
-		}
+			if (!monitor_help(&philos[i++], size, &cnt))
+				return (pthread_mutex_unlock(&philos[i - 1].general_data->mute)
+					, NULL);
+		pthread_mutex_unlock(&philos->general_data->mute);
 		usleep(100);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: nildruon <nildruon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 22:46:58 by nildruon          #+#    #+#             */
-/*   Updated: 2026/09/25 12:57:17 by nildruon         ###   ########.fr       */
+/*   Updated: 2026/09/25 14:22:47 by nildruon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,16 @@ static bool	eating(t_philo	*philo)
 		return (pthread_mutex_unlock(philo->left_fork), 1);
 	}
 	pthread_mutex_lock(philo->right_fork);
+	print_msg(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->general_data->mute);
+	if (get_time_in_ms() - philo->t_since_last_meal
+		>= philo->general_data->time_to_die)
+		usleep(500);
 	philo->t_since_last_meal = get_time_in_ms();
 	pthread_mutex_unlock(&philo->general_data->mute);
+	print_msg(philo, "eating");
 	if (stop_simulation(philo))
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);
-	print_msg(philo, "has taken a fork");
-	print_msg(philo, "eating");
 	if (!wait_ms(philo, philo->general_data->time_to_eat))
 		return (unlock_forks(philo->left_fork, philo->right_fork), 0);
 	pthread_mutex_lock(&philo->general_data->mute);
